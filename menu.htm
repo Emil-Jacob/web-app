@@ -27,12 +27,10 @@ site = URL;
 	<font color="white"><b> Welcome to this educational game.</b></font>
 	<font color="white"> In this game, you try to connect the dots and guess the animal using the choices provided below.</font>
 	<form  name="frmSite">
-		<input type="radio" name="site" onchange="if(this.checked){goTo('canvas-mcq.htm')}"/>
+		<input type="radio" name="site" onchange="if(this.checked){goTo('App/canvas-mcq.htm')}"/>
 		<p><form color="white">Choices</form></p>
-		<input type="radio" name="site" onchange="if(this.checked){goTo('canvas-text.htm')}"/>
+		<input type="radio" name="site" onchange="if(this.checked){goTo('App/canvas-text.htm')}"/>
 		<p><form color="white">Text</form></p>
-		<input type="radio" name="site" onchange="if(this.checked){goTo('canvas-speech.htm')}"/>
-		<p><form color="white">Speech</form></p>
 		<input type="Button" value="Submit" onclick="sub()" />
 	</form>
 </body>

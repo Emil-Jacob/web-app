@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
    <meta charset="utf-8" />
-   <title>Desktops and Tablets</title>
+   <title>Game App</title>
  
    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
  
    <script type="text/javascript">
 
-	var image_list=["Images/image1.gif","Images/image2.gif","Images/image3.gif","Images/image4.gif","Images/image5.gif"];
-	var answer_list=["Bat","Elephant","Donkey","Bear","Lion"];
+	var image_list=["Images/image1.gif","Images/image2.gif","Images/image3.gif","Images/image4.gif","Images/image5.gif","Images/image6.gif","Images/image7.gif","Images/image8.gif","Images/image9.gif","Images/image10.gif","Images/image11.gif","Images/image12.gif","Images/image13.gif","Images/image14.gif","Images/image15.gif","Images/image16.gif","Images/image17.gif","Images/image18.gif","Images/image19.gif","Images/image20.gif"];
+	var answer_list=["Bat","Elephant","Donkey","Bear","Lion","Giraffe","Zebra","Cassowary","Coatimundi","Fossa","Lemur","Parrot","Antelop","Baboon","Colugo","Frog","Gecko","Howler Monkey","Hummingbird","Leopard"];
 	var i=0;
 
       $(document).ready(function () {
@@ -190,7 +190,7 @@
 	   if (answer==="") {
 		alert("Please type something"); }
 	   else if (answer===image) {
-		window.open('correct.htm');
+		window.open('Corr-Incorr/correct.htm');
 		i++;
 		if (i>=image_list.length) {
 		alert('Congratulations, you have completed the game');
@@ -198,7 +198,7 @@
 		initialize();
 		}
 	   else {
-		window.open('incorrect.htm'); } 
+		window.open('Corr-Incorr/incorrect.htm'); } 
       }
    </script>
    
@@ -211,5 +211,6 @@
    </div>
    <input type="text" id="answer">
    <button onclick="equal()">Submit</button>
+   <form id="p"></form>
 </body>
 </html>

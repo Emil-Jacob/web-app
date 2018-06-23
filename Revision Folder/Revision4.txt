@@ -2,19 +2,54 @@
 <html lang="en">
 <head>
    <meta charset="utf-8" />
-   <title>Game App</title>
+   <title>Desktops and Tablets</title>
  
    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
  
    <script type="text/javascript">
-
+	
 	var image_list=["Images/image1.png","Images/image2.png","Images/image3.png","Images/image4.png","Images/image5.png","Images/image6.png","Images/image7.png","Images/image8.png","Images/image9.png","Images/image10.png"];
 	var answer_list=["Bat","Bear","Butterfly","Cat","Duck","Fish","Hippo","Lion","Shark","Snail"];
+	var position_array=[{X:333,Y:276},{X:361,Y:256},{X:388,Y:243},{X:412,Y:225},{X:444,Y:207}];
 	var i=0;
+	var k=0;
+	var wrong=false;
+	var cPushArray=new Array();
+	var cStep=-1;
+	function random_list (i) {
+		var random1=0; var random2=0; var random3=0;
+		while (random1===random2||random1===random3||random2===random3) {
+			random1=Math.floor(Math.random()*image_list.length);
+			random2=Math.floor(Math.random()*image_list.length);
+			random3=Math.floor(Math.random()*image_list.length);
+		}
+		if (random1!==i && random2!==i && random3!==i) {
+			random1=i;
+		}
+		return [random1,random2,random3];
+	}
+	function cPush() {
+		//Pushes recent activity in the canvas to cPushArray.
+    		cStep++;
+    		if (cStep < cPushArray.length) { cPushArray.length = cStep; }
+    		cPushArray.push(document.getElementById('canvasSignature').toDataURL());
+	}
+
+	function cUndo() {
+		//Undo an earlier action.
+    		if (cStep > 0) {
+        	cStep--;
+        	var canvasPic = new Image();
+        	canvasPic.src = cPushArray[cStep];
+        	canvasPic.onload = function () { context.drawImage(canvasPic, 0, 0); }
+    		}
+	}
+	
 
       $(document).ready(function () {
          initialize();
       });
+
 
       function Draw(src) {
 	 var sigCanvas = document.getElementById("canvasSignature");
@@ -24,7 +59,7 @@
               fitImageOn(sigCanvas, ImageObj);
 	  };
 
-	   function fitImageOn(canvas, imageObj) {
+	function fitImageOn(canvas, imageObj) {
 	      context.clearRect(0, 0, canvas.width, canvas.height);
 
 	      var imageDimensionRatio = imageObj.width / imageObj.height;
@@ -48,7 +83,7 @@
 	      }
 	      context.drawImage(imageObj, xStart, yStart, renderableWidth, renderableHeight);
 	  };
-	ImageObj.src=src;
+	 ImageObj.src=src;
          context.strokeStyle = 'Black';
  
          // This will be defined on a TOUCH device such as iPad or Android, etc.
@@ -121,6 +156,9 @@
             // draw a line to wherever the mouse moves to
             $("#canvasSignature").mousedown(function (mouseEvent) {
                var position = getPosition(mouseEvent, sigCanvas);
+		if (position.X>position_array[k].X+10 || position.X<position_array[k].X-10 || position.Y>position_array[k].Y+10 || position.Y<position_array[k].Y-10) {
+			alert('Wrong way! Please place your mouse on dot number '+(k+1));
+		}
  
                context.moveTo(position.X, position.Y);
                context.beginPath();
@@ -133,8 +171,7 @@
                }).mouseout(function (mouseEvent) {
                   finishDrawing(mouseEvent, sigCanvas, context);
                });
-            });
- 
+            }); 
          }
 	}
 	 
@@ -154,9 +191,18 @@
       }
  
       function initialize() {
-         // get references to the canvas element as well as the 2D drawing context
          Draw(image_list[i]);
-	 document.getElementById('answer').value="";
+	 var random = random_list(i);
+	 var answers=document.getElementsByName("answer");
+	 answers[0].value=answer_list[random[0]];
+	 answers[1].value=answer_list[random[1]];
+	 answers[2].value=answer_list[random[2]];
+	 answers[0].checked=false;
+	 answers[1].checked=false;
+	 answers[2].checked=false;
+	 document.getElementById("answer1").innerHTML=answer_list[random[0]];
+	 document.getElementById("answer2").innerHTML=answer_list[random[1]];
+	 document.getElementById("answer3").innerHTML=answer_list[random[2]];
       }
  
       // draws a line to the x and y coordinates of the mouse event inside
@@ -173,6 +219,15 @@
       // coordinates and unbind any event handlers which need to be preceded
       // by the mouse down event
       function finishDrawing(mouseEvent, sigCanvas, context) {
+         var position = getPosition(mouseEvent, sigCanvas);
+	if (position.X>position_array[k+1].X+10 || position.X<position_array[k+1].X-10 || position.Y>position_array[k+1].Y+10 || position.Y<position_array[k+1].Y-10) {
+		alert('Wrong way! Please place your mouse on dot number '+(k+2));
+		k=0;
+		context.clearRect(0,0,sigCanvas.width,sigCanvas.height);
+	}
+	else {
+		k++;
+	}
  
          context.closePath();
  
@@ -180,10 +235,18 @@
          $(sigCanvas).unbind("mousemove")
                      .unbind("mouseup")
                      .unbind("mouseout");
+	 Draw(image_list[i]);
       }
 
       function equal() {
-	   var answer=document.getElementById('answer').value;
+	   var answers=document.getElementsByName('answer');
+	   var answer="";
+	   for (var j=0; j<answers.length; j++) {
+		if (answers[j].checked) {
+			answer=answers[j].value;
+			break;
+		}
+	   }
 	   var image=answer_list[i];
 	   if (answer==="") {
 		alert("Please type something"); }
@@ -191,26 +254,36 @@
 		window.open('Corr-Incorr/correct.htm');
 		i++;
 		if (i>=image_list.length) {
-		window.open('Corr-Incorr/congratulations.htm');
+			alert("Congratulations! You have completed the game!");
 		}
-		else{
-		  initialize(); }
-		}
+		else {
+		initialize(); }
+		 }
 	   else {
 		window.open('Corr-Incorr/incorrect.htm'); } 
       }
+
    </script>
    
 </head>
  
 <body align="center" background="http://www.morfinmagic.com/html/images/Blue%20Star%20Background.jpg">
-   <font color="white">Enter the correct answer in the text field below</font>
+   <font color="white">Select the correct choice among a list of three</font>
    <div id="canvasDiv">
       <!-- It's bad practice (to me) to put your CSS here.  I'd recommend the use of a CSS file! -->
-      <canvas id="canvasSignature" width="600px" height="600px" style="border:2px solid #000000;"></canvas>
+      <canvas id="canvasSignature" width="600px" height="600px" style="border:2px solid #000000;">
+	</canvas>
    </div>
-   <input type="text" id="answer">
+   <form>
+	<div id="answer-value">
+   		<input type="radio" name="answer" value="">
+   		<font color="white" id="answer1"></font>
+   		<input type="radio" name="answer" value="">
+   		<font color="white" id="answer2"></font>
+   		<input type="radio" name="answer" value="">
+   		<font color="white" id="answer3"></font>
+	</div>
+   </form>
    <button onclick="equal()">Submit</button>
-   <form id="p"></form>
 </body>
 </html>

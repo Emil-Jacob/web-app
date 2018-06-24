@@ -8,33 +8,7 @@
  
    <script type="text/javascript">
 
-	function drawRotated(degrees){
-
-    		var canvas = document.getElementById("canvasSignature");
-    		var ctx=canvas.getContext("2d");
-    		canvas.style.width="20%";
-
-    	if(degrees == 90 || degrees == 270) {
-        	canvas.width = image.height;
-        	canvas.height = image.width;
-    	} else {
-        	canvas.width = image.width;
-        	canvas.height = image.height;
-    	}
-
-    	ctx.clearRect(0,0,canvas.width,canvas.height);
-    	if(degrees == 90 || degrees == 270) {
-        	ctx.translate(image.height/2,image.width/2);
-    	}
- 	else 	{
-        	ctx.translate(image.width/2,image.height/2);
-   		}
-    		ctx.rotate(degrees*Math.PI/180);
-    		ctx.drawImage(image,-image.width/2,-image.height/2);
-
-  
-	}
-	var image_list=["Images/image1.jpg","Images/image2.jpg","Images/image3.jpg","Images/image4.jpg","Images/image5.jpg","Images/image6.jpg","Images/image7.jpg","Images/image8.jpg","Images/image9.jpg","Images/image10.jpg"];
+	var image_list=["Images/image1.png","Images/image2.png","Images/image3.png","Images/image4.png","Images/image5.png","Images/image6.png","Images/image7.png","Images/image8.png","Images/image9.png","Images/image10.png"];
 	var answer_list=["Butterfly","Bat","Bear","Cat","Duck","Hippo","Lion","Fish","Shark","Snail"];
 	var i=0;
 

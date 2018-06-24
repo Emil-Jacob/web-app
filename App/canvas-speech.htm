@@ -183,21 +183,23 @@
       }
 
       function equal() {
-	   var answer=document.getElementById('answer').value;
+	   var answer=localStorage.getItem('answer');
+	   if (answer!=="") {answer=answer.substring(0,1).toUpperCase()+answer.substring(1,answer.length).toLowerCase(); }
 	   var image=answer_list[i];
 	   if (answer==="") {
-		alert("Please type something"); }
+		alert("Please say something"); }
 	   else if (answer===image) {
 		window.open('Corr-Incorr/correct.htm');
 		i++;
 		if (i>=image_list.length) {
 		window.open('Corr-Incorr/congratulations.htm');
+		localStorage.clear();
 		}
 		else{
 		  initialize(); }
 		}
 	   else {
-		window.open('Corr-Incorr/incorrect.htm'); } 
+		window.open('Corr-Incorr/incorrect.htm'); }
       }
    </script>
    
@@ -211,5 +213,7 @@
    </div>
    <embed width="600" height="600" src="speech.htm">
    <button onclick="equal()">Submit</button>
+   <button onclick="initialize()">Clear</button>
+   <form id="p"></form>
 </body>
 </html>

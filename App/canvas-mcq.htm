@@ -213,9 +213,10 @@
 			break;
 		}
 	   }
+	   if (answer!=="") {answer=answer.substring(0,1).toUpperCase()+answer.substring(1,answer.length).toLowerCase(); }
 	   var image=answer_list[i];
 	   if (answer==="") {
-		alert("Please type something"); }
+		alert("Please select something"); }
 	   else if (answer===image) {
 		window.open('Corr-Incorr/correct.htm');
 		i++;

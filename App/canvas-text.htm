@@ -184,6 +184,7 @@
 
       function equal() {
 	   var answer=document.getElementById('answer').value;
+	   if (answer!=="") {answer=answer.substring(0,1).toUpperCase()+answer.substring(1,answer.length).toLowerCase(); }
 	   var image=answer_list[i];
 	   if (answer==="") {
 		alert("Please type something"); }

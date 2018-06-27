@@ -24,6 +24,16 @@
 		return [random1,random2,random3];
 	}
 
+	function disorder(p){
+		var i, pos, temp;
+		for(i=0;i<100;i++){
+    		pos = Math.random()*p.length|0;
+    		temp=p[pos];
+    		p.splice(pos,1);
+    		p.push(temp);
+  	  }
+	}
+
       $(document).ready(function () {
          initialize();
       });
@@ -170,6 +180,7 @@
          // get references to the canvas element as well as the 2D drawing context
          Draw(image_list[i]);
 	 var random = random_list(i);
+	 disorder(random);
 	 var answers=document.getElementsByName("answer");
 	 answers[0].value=answer_list[random[0]];
 	 answers[1].value=answer_list[random[1]];
